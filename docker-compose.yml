@@ -5,7 +5,7 @@ services:
     #   context: .
     #   dockerfile: Dockerfile
     ports:
-      - "6789:6789"
+      - "6789:3000"
     env_file:
       - .env.production
     volumes:
