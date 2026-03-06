@@ -1,0 +1,71 @@
+services:
+  dokploy:
+    image: dokploy/dokploy:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.production
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - dokploy-data:/etc/dokploy
+      - /tmp/buildkit-cache:/tmp/buildkit-cache
+    depends_on:
+      dokploy-postgres:
+        condition: service_healthy
+      dokploy-redis:
+        condition: service_healthy
+    networks:
+      - dokploy-network
+
+  dokploy-postgres:
+    image: postgres:16
+    container_name: dokploy-postgres
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - dokploy-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dokploy -d dokploy"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  dokploy-redis:
+    image: redis:7-alpine
+    container_name: dokploy-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - dokploy-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  dokploy-monitoring:
+    image: dokploy/monitoring:latest
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    volumes:
+      - monitoring-data:/data
+    networks:
+      - dokploy-network
+
+volumes:
+  dokploy-data:
+  postgres-data:
+  redis-data:
+  monitoring-data:
+
+networks:
+  dokploy-network:
+    driver: bridge
