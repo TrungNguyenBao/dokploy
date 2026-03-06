@@ -12,7 +12,7 @@ import type { AppRouter } from "@/server/api/root";
 
 const getBaseUrl = () => {
 	if (typeof window !== "undefined") return "";
-	return `http://localhost:${process.env.PORT ?? 8080}`;
+	return `http://localhost:${process.env.PORT ?? 6789}`;
 };
 
 const getWsUrl = () => {

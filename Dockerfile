@@ -64,9 +64,9 @@ RUN curl -sSL https://railpack.com/install.sh | bash
 # Install buildpacks
 COPY --from=buildpacksio/pack:0.39.1 /usr/local/bin/pack /usr/local/bin/pack
 
-EXPOSE 8080
+EXPOSE 6789
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=10 \
-  CMD curl -fs http://localhost:8080/api/trpc/settings.health || exit 1
+  CMD curl -fs http://localhost:6789/api/trpc/settings.health || exit 1
 
   CMD ["sh", "-c", "pnpm run wait-for-postgres && exec pnpm start"]

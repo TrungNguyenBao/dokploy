@@ -584,6 +584,12 @@ importers:
         specifier: ^5.8.3
         version: 5.9.3
 
+  deploy_tools:
+    dependencies:
+      ssh2:
+        specifier: 1.15.0
+        version: 1.15.0
+
   packages/server:
     dependencies:
       '@ai-sdk/anthropic':

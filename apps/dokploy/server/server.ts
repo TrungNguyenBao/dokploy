@@ -24,7 +24,7 @@ import { setupDeploymentLogsWebSocketServer } from "./wss/listen-deployment";
 import { setupTerminalWebSocketServer } from "./wss/terminal";
 
 config({ path: ".env" });
-const PORT = Number.parseInt(process.env.PORT || "8080", 10);
+const PORT = Number.parseInt(process.env.PORT || "6789", 10);
 const HOST = process.env.HOST || "0.0.0.0";
 const dev = process.env.NODE_ENV !== "production";
 

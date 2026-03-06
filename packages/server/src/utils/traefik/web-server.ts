@@ -43,7 +43,7 @@ export const updateServerTraefik = (
 			loadBalancer: {
 				servers: [
 					{
-						url: `http://dokploy:${process.env.PORT || 8080}`,
+						url: `http://dokploy:${process.env.PORT || 6789}`,
 					},
 				],
 				passHostHeader: true,
